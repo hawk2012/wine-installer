@@ -1,2 +1,2 @@
-# wine-installer
+# Wine installer
 Wine installer for Linux
