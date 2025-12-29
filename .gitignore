@@ -1,0 +1,1 @@
+Nothing should be ignored based on the provided file changes. The modified file `install-f3tail-go.sh` is a shell script and should not be added to .gitignore.
