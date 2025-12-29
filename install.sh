@@ -11,26 +11,30 @@ cmd=(dialog --keep-tite --menu "Что будем делать?" 22 76 16)
 options=(1 "Ставим Wine"
          2 "Настраиваем .NET (основные компоненты)"
          3 "Ставим .NET 4.8 (F3RAP, склад)"
-		 4 "Настраиваем сеть")
+         4 "Настраиваем сеть")
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 for choice in $choices
 do
     case $choice in
         1)
             sudo dpkg --add-architecture i386 && sudo apt-get update && sudo mkdir -pm755 /etc/apt/keyrings && sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key; sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources && sudo apt-get update && sudo apt install wine winetricks winbind xorg-dev libx11-dev -y;
-			break;
+            break;
             ;;
         2)
             sudo apt-get install winetricks -y && sudo rm -Rf ~/.wine && winecfg WINEARCH=win32 WINEPREFIX='/home/'$(whoami)'/.wine' && wineboot -u && winetricks winhttp msxml3 msxml4 dotnet40 corefonts lucida tahoma vb6run mdac28 mfc42 jet40 native_oleaut32 && winetricks --force dotnet472;
-			break;
+            break;
             ;;
         3)
-			wine $PWD/f3tail-distrib/dist/dotnet48/ndp48-x86-x64-allos-enu.exe;
-			break;
+            if [ ! -f "/tmp/ndp48-x86-x64-allos-enu.exe" ]; then
+                echo "Скачиваем .NET Framework 4.8..."
+                wget -O /tmp/ndp48-x86-x64-allos-enu.exe https://download.microsoft.com/download/6/E/4/6E48E8AB-DC00-419E-9704-FFED511C712A/ndp48-x86-x64-allos-enu.exe
+            fi
+            wine /tmp/ndp48-x86-x64-allos-enu.exe;
+            break;
             ;;
         4)
             sudo setcap cap_net_raw+epi "$(readlink -f "/usr/bin/wine-preloader")"
-			break;
+            break;
             ;;
     esac
 done
@@ -45,25 +49,29 @@ cmd=(dialog --keep-tite --menu "Что будем делать?" 22 76 16)
 options=(1 "Ставим Wine"
          2 "Настраиваем .NET (основные компоненты)"
          3 "Ставим .NET 4.8 (F3RAP, склад)"
-		 4 "Настраиваем сеть")
+         4 "Настраиваем сеть")
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 for choice in $choices
 do
     case $choice in
         1)
             sudo dpkg --add-architecture i386 && sudo apt-get update && sudo mkdir -pm755 /etc/apt/keyrings && sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key; sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources && sudo apt-get update && sudo apt install wine wine winetricks winbind xorg-dev libx11-dev -y;
-			break;
+            break;
             ;;
         2)
             sudo apt-get install winetricks -y && sudo rm -Rf ~/.wine && winecfg WINEARCH=win32 WINEPREFIX='/home/'$(whoami)'/.wine' && wineboot -u && winetricks winhttp msxml3 msxml4 dotnet40 corefonts lucida tahoma vb6run mdac28 mfc42 jet40 native_oleaut32 && winetricks --force dotnet472;
             ;;
         3)
-			wine $PWD/f3tail-distrib/dist/dotnet48/ndp48-x86-x64-allos-enu.exe;
-			break;
+            if [ ! -f "/tmp/ndp48-x86-x64-allos-enu.exe" ]; then
+                echo "Скачиваем .NET Framework 4.8..."
+                wget -O /tmp/ndp48-x86-x64-allos-enu.exe https://download.microsoft.com/download/6/E/4/6E48E8AB-DC00-419E-9704-FFED511C712A/ndp48-x86-x64-allos-enu.exe
+            fi
+            wine /tmp/ndp48-x86-x64-allos-enu.exe;
+            break;
             ;;
         4)
             sudo setcap cap_net_raw+epi "$(readlink -f "/usr/bin/wine-preloader")"
-			break;
+            break;
             ;;
     esac
 done
@@ -77,26 +85,30 @@ cmd=(dialog --keep-tite --menu "Что будем делать?" 22 76 16)
 options=(1 "Ставим Wine"
          2 "Настраиваем .NET (основные компоненты)"
          3 "Ставим .NET 4.8 (F3RAP, склад)"
-		 4 "Настраиваем сеть")
+         4 "Настраиваем сеть")
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 for choice in $choices
 do
     case $choice in
         1)
              sudo dpkg --add-architecture i386 && sudo mkdir -pm755 /etc/apt/keyrings && mkdir -pm755 /usr/share/keyrings && sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key; sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/bookworm/winehq-bookworm.sources && sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys `sudo apt-get update 2>&1 | grep -o '[0-9A-Z]{16}$' | xargs` && sudo apt-get update && sudo apt-get install wine-staging winetricks winbind xorg-dev libx11-dev -y;
-			break;
+            break;
             ;;
         2)
             rm -Rf ~/.wine && WINEARCH=win32 WINEPREFIX='/home/'$(whoami)'/.wine' winecfg && wineboot -u && winetricks winhttp msxml3 msxml4 corefonts lucida tahoma vb6run mdac28 mfc42 jet40 native_oleaut32 && winetricks --force dotnet472;
-			break;
+            break;
             ;;
         3)
-			wine $PWD/f3tail-distrib/dist/dotnet48/ndp48-x86-x64-allos-enu.exe;
-			break;
+            if [ ! -f "/tmp/ndp48-x86-x64-allos-enu.exe" ]; then
+                echo "Скачиваем .NET Framework 4.8..."
+                wget -O /tmp/ndp48-x86-x64-allos-enu.exe https://download.microsoft.com/download/6/E/4/6E48E8AB-DC00-419E-9704-FFED511C712A/ndp48-x86-x64-allos-enu.exe
+            fi
+            wine /tmp/ndp48-x86-x64-allos-enu.exe;
+            break;
             ;;
         4)
             sudo setcap cap_net_raw+epi "$(readlink -f "/usr/bin/wine-preloader")"
-			break;
+            break;
             ;;
     esac
 done
@@ -111,26 +123,30 @@ cmd=(dialog --keep-tite --menu "Что будем делать?" 22 76 16)
 options=(1 "Ставим Wine"
          2 "Настраиваем .NET (основные компоненты)"
          3 "Ставим .NET 4.8 (F3RAP, склад)"
-		 4 "Настраиваем сеть")
+         4 "Настраиваем сеть")
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 for choice in $choices
 do
     case $choice in
         1)
             sudo dpkg --add-architecture i386 && sudo apt-get update && sudo mkdir -pm755 /etc/apt/keyrings && sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key && sudo sh -c 'echo "deb https://dl.winehq.org/wine-builds/debian/ bookworm main" >> /etc/apt/sources.list.d/winehq-bookworm.sources' && sudo apt-get update && sudo apt install wine winetricks winbind xorg-dev libx11-dev -y;
-			break;
+            break;
             ;;
         2)
             sudo rm -Rf ~/.wine && WINEARCH=win32 WINEPREFIX='/home/'$(whoami)'/.wine' winecfg && wineboot -u && winetricks winhttp msxml3 msxml4 dotnet40 corefonts lucida tahoma vb6run mdac28 mfc42 jet40 native_oleaut32 && winetricks --force dotnet472;
-			break;
+            break;
             ;;
         3)
-			wine $PWD/f3tail-distrib/dist/dotnet48/ndp48-x86-x64-allos-enu.exe;
-			break;
+            if [ ! -f "/tmp/ndp48-x86-x64-allos-enu.exe" ]; then
+                echo "Скачиваем .NET Framework 4.8..."
+                wget -O /tmp/ndp48-x86-x64-allos-enu.exe https://download.microsoft.com/download/6/E/4/6E48E8AB-DC00-419E-9704-FFED511C712A/ndp48-x86-x64-allos-enu.exe
+            fi
+            wine /tmp/ndp48-x86-x64-allos-enu.exe;
+            break;
             ;;
         4)
             sudo setcap cap_net_raw+epi /opt/wine-staging/bin/wine-preloader
-			break;
+            break;
             ;;
     esac
 done
@@ -145,26 +161,30 @@ cmd=(dialog --keep-tite --menu "Что будем делать?" 22 76 16)
 options=(1 "Ставим Wine"
          2 "Настраиваем .NET (основные компоненты)"
          3 "Ставим .NET 4.8 (F3RAP, склад)"
-		 4 "Настраиваем сеть")
+         4 "Настраиваем сеть")
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 for choice in $choices
 do
     case $choice in
         1)
             sudo yum update -y && sudo yum -y install wget && sudo yum install epel-release -y && sudo yum-config-manager --set-enabled powertools && sudo yum -y install libxslt-devel libpng-devel libX11-devel zlib-devel libtiff-devel freetype-devel libxcb-devel  libxml2-devel libgcrypt-devel dbus-devel libjpeg-turbo-devel  fontconfig-devel gnutls-devel gstreamer1-devel libXcursor-devel libXi-devel libXrandr-devel libXfixes-devel libXinerama-devel libXcomposite-devel mesa-libOSMesa-devel libpcap-devel libusb-devel libv4l-devel libgphoto2-devel gstreamer1-devel libgudev SDL2-devel gsm-devel libvkd3d-devel libudev-devel && sudo yum install wine winetricks dotnet-* -y;
-			break;
+            break;
             ;;
         2)
             WINEARCH=win32 WINEPREFIX='/home/'$(whoami)'/.wine' winecfg && winetricks winhttp msxml3 msxml4 corefonts lucida tahoma vb6run mdac28 mfc42 jet40 native_oleaut32 && winetricks --force dotnet472;
-			break;
+            break;
             ;;
         3)
-			wine $PWD/f3tail-distrib/dist/dotnet48/ndp48-x86-x64-allos-enu.exe;
-			break;
+            if [ ! -f "/tmp/ndp48-x86-x64-allos-enu.exe" ]; then
+                echo "Скачиваем .NET Framework 4.8..."
+                wget -O /tmp/ndp48-x86-x64-allos-enu.exe https://download.microsoft.com/download/6/E/4/6E48E8AB-DC00-419E-9704-FFED511C712A/ndp48-x86-x64-allos-enu.exe
+            fi
+            wine /tmp/ndp48-x86-x64-allos-enu.exe;
+            break;
             ;;
         4)
             sudo setcap cap_net_raw+epi "$(readlink -f "/usr/bin/wine-preloader")"
-			break;
+            break;
             ;;
     esac
 done
@@ -208,30 +228,30 @@ fi
 cmd=(dialog --keep-tite --menu "Выберите тип установки:" 22 76 16)
 options=(1 "Установить F3TAIL на Ubuntu"
          2 "Установить F3TAIL на Mint"
-		 3 "Установить F3TAIL на Astra Linux"
-		 4 "Установить F3TAIL на Debian 12"
-		 5 "Установить F3TAIL на RED OS"
-		 6 "Установить драйвера АТОЛ")
+         3 "Установить F3TAIL на Astra Linux"
+         4 "Установить F3TAIL на Debian 12"
+         5 "Установить F3TAIL на RED OS"
+         6 "Установить драйвера АТОЛ")
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 for choice in $choices
 do
     case $choice in
         1)
-	install_ubuntu
+    install_ubuntu
         ;;
         2)
-	install_mint
+    install_mint
         ;;
         3)
-	install_astra
+    install_astra
         ;;
         4)
-	install_debian
+    install_debian
         ;;
-	5)
-	install_redos
-	;;
-	6)
+    5)
+    install_redos
+    ;;
+    6)
     install_driver
         ;;
     esac
